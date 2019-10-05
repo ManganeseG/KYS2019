@@ -6,29 +6,29 @@ using UnityEngine.AI;
 public class Crew : MonoBehaviour
 {
     #region CustomStatPirate
-    public string typePirate= "Default Pirate Template";
-    
+    public string typePirate = "Default Pirate Template";
+
     [Header("Skill level added to dicerolls")]
     [Range(-3, 3)]
-    public int modifierSkillOnSail=0;
+    public int modifierSkillOnSail = 0;
     [Range(-3, 3)]
-    public int modifierSkillOnBucket=0;
+    public int modifierSkillOnBucket = 0;
     [Range(-3, 3)]
-    public int modifierSkillOnBorder=0;
+    public int modifierSkillOnBorder = 0;
     [Range(-3, 3)]
-    public int modifierSkillOnCanon=0;
+    public int modifierSkillOnCanon = 0;
     [Range(-3, 3)]
-    public int modifierSkillOnAnchor=0;
+    public int modifierSkillOnAnchor = 0;
     #endregion
 
     #region Public Members
-    public UnityEvent Slapped;
-    public UnityEvent Helped;
+    public UnityEvent Slapped;//colère
+    public UnityEvent Helped;//aide
     public UnityEvent UnStuck;
     public UnityEvent Death;
     public UnityEvent Stuck;
-    public UnityEvent Congratulated;
-    public UnityEvent ThorwnOverboard;
+    public UnityEvent Congratulated;//soutiens
+    public UnityEvent Threaten;//menace
     public UnityEvent EnteredArea;
 
     public Transform UpperDeskPos;
@@ -42,9 +42,9 @@ public class Crew : MonoBehaviour
     public Area CurrentArea;
     public float SpeedWalk = 3f;
     public float SpeedRun = 5f;
-    public int SkillLevel=0;
+    public float SkillLevel = 0f;
     public int Handicap=0;
-    public float DurationOfSlapBoost = 10f;
+    public float DurationOfSlapBoost = 25f;
     public bool BoostActive=false;
     public string LastLocation = "";
     public float TimeStuckBeforeDeath = 30f;
@@ -52,6 +52,12 @@ public class Crew : MonoBehaviour
     public string Destination;
     public bool StateStuck=false;
     public bool StateDead = false;
+    public bool Interactable = false;
+    public float TimeRemainInteractableAfterUnstuck=2f;
+    public float DurationSlapAnim=2f;
+    public float DurationGratzAnim=2f;
+    public float DurationHelpAnim=15f;
+    public float DurationThreatAnim=2f;
     public enum e_Location
     {
         UPPERDESK,
@@ -76,6 +82,7 @@ public class Crew : MonoBehaviour
         ANCHOR,
         STAIRSCLIMBUP,
         STAIRSCLIMBDOWN,
+        INTERACTEDWITH,
     }
     public e_characterState characterState = e_characterState.IDLE;
     #endregion
@@ -87,6 +94,10 @@ public class Crew : MonoBehaviour
     private bool BorderBusy = false;
     private bool AnchorBusy = false;
     private bool timer01Underway = false;
+    private bool GratzB = false;
+    private bool ThreatB = false;
+    private bool HelpB = false;
+    private bool SlapB = false;
     private NavMeshAgent Agent;
     private float ActualSpeed = 10f;
     private bool IsMoving = false;
@@ -99,9 +110,13 @@ public class Crew : MonoBehaviour
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = ActualSpeed;
         Slapped.AddListener(Slap);
+        Helped.AddListener(HelpTeach);
+        Congratulated.AddListener(Gratz);
+        Threaten.AddListener(Threat);
         EnteredArea.AddListener(Arrived);
         UnStuck.AddListener(Unstuck);
         Stuck.AddListener(IsStuck);
+        
     }
 
     
@@ -126,7 +141,50 @@ public class Crew : MonoBehaviour
         }
         
     }
+    private void HelpTeach()
+    {
+        HelpB = true;
+        Interactable = false;
+        switch ((int)SkillLevel)
+        {
+            case 0:
+                SkillLevel += 1f;
+                break;
+            case 1:
+                SkillLevel += 0.5f;
+                break;
+            case 2:
+                SkillLevel += 0.25f;
+                break;
+            case 3:
+                break;
+        }
+    }
+    private void Gratz()
+    {
+        GratzB = true;
+        Interactable = false;
+        //add reputation+? and something?
+    }
+    private void Threat()
+    {
+        ThreatB = true;
+        Interactable = false;
+        //add reputation-? and something?
+    }
+    private void Slap()
+    {
+        SlapB = true;
+        Interactable = false;
+        BoostActive = true;
+        if (characterState == e_characterState.WALKING)
+        {
+            StartCoroutine("slapTimer");
+            characterState = e_characterState.RUNNING;
+        }
+    }
 
+    
     private void Unstuck()
     {
         switch (Location)
@@ -148,16 +206,7 @@ public class Crew : MonoBehaviour
                 break;
         }
     }
-    private void Slap()
-    {
-        BoostActive = true;
-        if (characterState == e_characterState.WALKING)
-        {
-            StartCoroutine("slapTimer");
-            characterState = e_characterState.RUNNING;
-        }
-            
-    }
+    
     private void MoveTo(Transform pos)
     {
         IsMoving = true;
@@ -387,7 +436,7 @@ public class Crew : MonoBehaviour
     }
     private bool DiceIt(int min, int max, int successCap)
     {
-        int rand = Random.Range(min + SkillLevel, max - Handicap);
+        int rand = Random.Range(min + (int)SkillLevel, max - Handicap);
         Debug.Log("random result: " + rand + " cap: " + successCap );
         if (rand < successCap)
             return false;
@@ -395,14 +444,61 @@ public class Crew : MonoBehaviour
             return true;
 
     }
+
     #region Timers
-    
+    IEnumerator slapAnimTimer()
+    {
+        //anim 
+        yield return new WaitForSeconds(DurationSlapAnim);
+    }
+    IEnumerator gratzAnimTimer()
+    {
+        //anim 
+        yield return new WaitForSeconds(DurationGratzAnim);
+    }
+    IEnumerator helpAnimTimer()
+    {
+        //anim 
+        yield return new WaitForSeconds(DurationHelpAnim);
+    }
+    IEnumerator threatAnimTimer()
+    {
+        //anim 
+        yield return new WaitForSeconds(DurationThreatAnim);
+    }
     IEnumerator unstuckCanonTimer()
     {
         //anim
         yield return new WaitForSeconds(5f);
         if(!StateDead)
         {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                SlapB = false;
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                GratzB = false;
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                HelpB = false;
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                ThreatB = false;
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
             StateStuck = false;
             MoveTo(LowerDeskPos);
             Destination = "LOWERDESK";
@@ -415,6 +511,33 @@ public class Crew : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (!StateDead)
         {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                SlapB = false;
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                GratzB = false;
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                HelpB = false;
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                ThreatB = false;
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
             StateStuck = false;
             MoveTo(UpperDeskPos);
             Destination = "UPPERDESK";
@@ -427,6 +550,33 @@ public class Crew : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (!StateDead)
         {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                SlapB = false;
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                GratzB = false;
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                HelpB = false;
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                ThreatB = false;
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
             StateStuck = false;
             MoveTo(UpperDeskPos);
             Destination = "UPPERDESK";
@@ -439,6 +589,33 @@ public class Crew : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (!StateDead)
         {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                SlapB = false;
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                GratzB = false;
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                HelpB = false;
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                ThreatB = false;
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
             StateStuck = false;
             MoveTo(UpperDeskPos);
             Destination = "UPPERDESK";
@@ -451,6 +628,34 @@ public class Crew : MonoBehaviour
         yield return new WaitForSeconds(5f);
         if (!StateDead)
         {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                SlapB = false;
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                GratzB = false;
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                HelpB = false;
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                ThreatB = false;
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
+            
             StateStuck = false;
             MoveTo(UpperDeskPos);
             Destination = "UPPERDESK";

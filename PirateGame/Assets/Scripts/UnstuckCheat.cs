@@ -7,6 +7,11 @@ public class UnstuckCheat : MonoBehaviour
 {
     public Crew c;
     public bool stuck = false;
+
+    public bool playEventGratz = false;
+    public bool playEventThreat = false;
+    public bool playEventSlap = false;
+    public bool playEventHelp = false;
     private bool canUnstuck = false;
     // Start is called before the first frame update
     void Awake()
@@ -26,6 +31,30 @@ public class UnstuckCheat : MonoBehaviour
                 c.UnStuck.Invoke();
                 canUnstuck = false;
             }
+        }
+        if (c.Interactable == true)
+        {
+            if (playEventGratz == true)
+            {
+                c.Congratulated.Invoke();
+                playEventGratz = false;
+            }
+            else if (playEventThreat == true)
+            {
+                c.Threaten.Invoke();
+                playEventThreat = false;
+            }
+            else if (playEventHelp == true)
+            {
+                c.Helped.Invoke();
+                playEventHelp = false;
+            }
+            else if (playEventSlap == true)
+            {
+                c.Slapped.Invoke();
+                playEventSlap = false;
+            }
+                
         }
     }
     public void UpdateStuck()
