@@ -112,26 +112,35 @@ public class PlayerController : MonoBehaviour
                 CanMove = false;
                 ActionsUI.enabled = true;
                 col.GetComponent<Crew>().UnStuck.Invoke();
-                if (col.GetComponent<Crew>().Interactable == true)
+                
+            }
+            if (col.GetComponent<Crew>().Interactable == true)
+            {
+                Debug.Log("interactable");
+                if (Input.GetButtonDown("Cross"))
                 {
-                    if (Input.GetButtonDown("Cross"))
-                    {
-                        col.GetComponent<Crew>().Threaten.Invoke();
-                        
-                    }
-                    if (Input.GetButtonDown("Circle"))
-                    {
-                        col.GetComponent<Crew>().Helped.Invoke();
-                    }
-                    if (Input.GetButtonDown("Square"))
-                    {
-                        col.GetComponent<Crew>().Helped.Invoke();
-                    }
-                    if(Input.GetButtonDown("Triangle"))
-                    {
-                        col.GetComponent<Crew>().Congratulated.Invoke();
-                    }
+                    col.GetComponent<Crew>().Threaten.Invoke();
                 }
+                if (Input.GetButtonDown("Circle"))
+                {
+                    col.GetComponent<Crew>().Helped.Invoke();
+                }
+                if (Input.GetButtonDown("Square"))
+                {
+                    col.GetComponent<Crew>().Helped.Invoke();
+                }
+                if (Input.GetButtonDown("Triangle"))
+                {
+                    col.GetComponent<Crew>().Congratulated.Invoke();
+                    
+                }
+            }
+            if(col.GetComponent<Crew>().FinishedIteraction== true)
+            {
+                CanMove = true;
+                Debug.Log(CanMove);
+                ActionsUI.enabled = false;
+                col.GetComponent<Crew>().FinishedIteraction = false;
             }
         }
     }
