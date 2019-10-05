@@ -1556,6 +1556,7 @@ GameObject:
   - component: {fileID: 901561539}
   - component: {fileID: 901561538}
   - component: {fileID: 901561546}
+  - component: {fileID: 901561547}
   m_Layer: 10
   m_Name: Crew2
   m_TagString: Untagged
@@ -1685,7 +1686,7 @@ MonoBehaviour:
   CurrentArea: {fileID: 2127547393}
   SpeedWalk: 3.5
   SpeedRun: 5
-  SkillLevel: 0
+  SkillLevel: -2
   Handicap: 0
   DurationOfSlapBoost: 10
   BoostActive: 0
@@ -1777,6 +1778,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.5, y: 2, z: 4.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &901561547
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 901561537}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: c07546a7cfd2ed94ea96923775d7664c, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &972299097
 GameObject:
   m_ObjectHideFlags: 0
@@ -1963,6 +1983,7 @@ GameObject:
   - component: {fileID: 1210003187}
   - component: {fileID: 1210003186}
   - component: {fileID: 1210003194}
+  - component: {fileID: 1210003195}
   m_Layer: 10
   m_Name: Crew3
   m_TagString: Untagged
@@ -2092,7 +2113,7 @@ MonoBehaviour:
   CurrentArea: {fileID: 2127547393}
   SpeedWalk: 3.5
   SpeedRun: 5
-  SkillLevel: 0
+  SkillLevel: -2
   Handicap: 0
   DurationOfSlapBoost: 10
   BoostActive: 0
@@ -2184,6 +2205,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.5, y: 2, z: 4.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &1210003195
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1210003185}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: a123cf1e52d448e419ee4014093f3287, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1215444480
 GameObject:
   m_ObjectHideFlags: 0
@@ -2322,6 +2362,7 @@ GameObject:
   - component: {fileID: 1226311420}
   - component: {fileID: 1226311426}
   - component: {fileID: 1226311428}
+  - component: {fileID: 1226311429}
   m_Layer: 10
   m_Name: Crew1
   m_TagString: Untagged
@@ -2417,7 +2458,7 @@ MonoBehaviour:
   CurrentArea: {fileID: 2127547393}
   SpeedWalk: 3.5
   SpeedRun: 5
-  SkillLevel: 0
+  SkillLevel: -2
   Handicap: 0
   DurationOfSlapBoost: 10
   BoostActive: 0
@@ -2543,6 +2584,25 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 4.5, y: 2, z: 4.5}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!95 &1226311429
+Animator:
+  serializedVersion: 3
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1226311419}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 7115198c2721829478cb1a58df6ded6a, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1 &1303344897
 GameObject:
   m_ObjectHideFlags: 0

@@ -458,28 +458,28 @@ public class Crew : MonoBehaviour
     {
         //anim 
         Debug.Log("ee");
-        yield return new WaitForSeconds(DurationSlapAnim);
+        yield return new WaitForSeconds(DurationSlapAnim-1f);
         FinishedIteraction = true;
     }
     IEnumerator gratzAnimTimer()
     {
         //anim 
         Debug.Log("ee");
-        yield return new WaitForSeconds(DurationGratzAnim);
+        yield return new WaitForSeconds(DurationGratzAnim-1f);
         FinishedIteraction = true;
     }
     IEnumerator helpAnimTimer()
     {
         //anim 
         Debug.Log("ee");
-        yield return new WaitForSeconds(DurationHelpAnim);
+        yield return new WaitForSeconds(DurationHelpAnim-1f);
         FinishedIteraction = true;
     }
     IEnumerator threatAnimTimer()
     {
         //anim 
         Debug.Log("ee");
-        yield return new WaitForSeconds(DurationThreatAnim);
+        yield return new WaitForSeconds(DurationThreatAnim-1f);
         FinishedIteraction = true;
     }
     IEnumerator unstuckCanonTimer()
