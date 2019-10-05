@@ -58,6 +58,7 @@ public class Crew : MonoBehaviour
     public float DurationGratzAnim=2f;
     public float DurationHelpAnim=15f;
     public float DurationThreatAnim=2f;
+    public bool FinishedIteraction = false;
     public enum e_Location
     {
         UPPERDESK,
@@ -457,21 +458,25 @@ public class Crew : MonoBehaviour
     {
         //anim 
         yield return new WaitForSeconds(DurationSlapAnim);
+        FinishedIteraction = true;
     }
     IEnumerator gratzAnimTimer()
     {
         //anim 
         yield return new WaitForSeconds(DurationGratzAnim);
+        FinishedIteraction = true;
     }
     IEnumerator helpAnimTimer()
     {
         //anim 
         yield return new WaitForSeconds(DurationHelpAnim);
+        FinishedIteraction = true;
     }
     IEnumerator threatAnimTimer()
     {
         //anim 
         yield return new WaitForSeconds(DurationThreatAnim);
+        FinishedIteraction = true;
     }
     IEnumerator unstuckCanonTimer()
     {
