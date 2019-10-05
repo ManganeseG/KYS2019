@@ -91,7 +91,7 @@ public class Crew : MonoBehaviour
     
     
 
-    
+    // Update is called once per frame
     void Update()
     {
         CharStateHandle();
