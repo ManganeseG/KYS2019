@@ -15,6 +15,8 @@ public class PlayerController : MonoBehaviour
     private Rigidbody rbody;
     private Transform camTransform;
 
+    private bool CanMove = true;
+
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
@@ -28,8 +30,6 @@ public class PlayerController : MonoBehaviour
         vertical = Input.GetAxis("Vertical");
 
         PlayerControl(horizontal, vertical);
-
-
     }
 
     private void Update()
@@ -39,41 +39,50 @@ public class PlayerController : MonoBehaviour
 
     void PlayerControl(float horizontal, float vertical)
     {
-        if (horizontal != 0f || vertical != 0f)
+        if (CanMove)
         {
-            Vector3 targetDirection = new Vector3(horizontal, 0f, vertical);
+            if (horizontal != 0f || vertical != 0f)
+            {
+                Vector3 targetDirection = new Vector3(horizontal, 0f, vertical);
 
-            Vector3 camRight = camTransform.right;
-            Vector3 camForward = camTransform.up;
-            //Vector3 camForward = Vector3.Lerp(camTransform.up, camTransform.forward,
-            //                                    camTransform.forward.x + camTransform.forward.z);
-            camForward.y = 0f;
-            camRight.y = 0f;
+                Vector3 camRight = camTransform.right;
+                Vector3 camForward = camTransform.up;
+                //Vector3 camForward = Vector3.Lerp(camTransform.up, camTransform.forward,
+                //                                    camTransform.forward.x + camTransform.forward.z);
+                camForward.y = 0f;
+                camRight.y = 0f;
 
-            targetDirection = horizontal * camRight + vertical * camForward;
+                targetDirection = horizontal * camRight + vertical * camForward;
 
-            Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
-            Quaternion newRotation = Quaternion.Lerp(rbody.rotation, targetRotation, turnSmoothing * Time.deltaTime);
+                Quaternion targetRotation = Quaternion.LookRotation(targetDirection, Vector3.up);
+                Quaternion newRotation = Quaternion.Lerp(rbody.rotation, targetRotation, turnSmoothing * Time.deltaTime);
 
-            rbody.position += targetDirection * Speed;
+                rbody.position += targetDirection * Speed;
 
 
-            rbody.rotation = newRotation;
+                rbody.rotation = newRotation;
 
-            //if (StateType == PlayerState.Base)
-            //{
-            //    animator.SetBool("Walking", true);
-            //}
-            //else if (StateType == PlayerState.Fleeing)
-            //    animator.SetBool("Running", true);
+                //if (StateType == PlayerState.Base)
+                //{
+                //    animator.SetBool("Walking", true);
+                //}
+                //else if (StateType == PlayerState.Fleeing)
+                //    animator.SetBool("Running", true);
 
-            //float magnitude = targetDirection.magnitude;
+                //float magnitude = targetDirection.magnitude;
+            }
+            else
+            {
+                // animator.SetBool("Walking", false);
+                // animator.SetBool("Running", false);
+            }
         }
         else
         {
-           // animator.SetBool("Walking", false);
-           // animator.SetBool("Running", false);
+            horizontal = 0f;
+            vertical = 0f;
         }
+        
 
     }
 
@@ -91,7 +100,12 @@ public class PlayerController : MonoBehaviour
 
     void OnTriggerStay()
     {
+        //if need help
+        if (Input.GetButtonDown("Cross")) //&& crew problem condition
+        {
+            CanMove = false;
 
+        }
     }
 }
 
