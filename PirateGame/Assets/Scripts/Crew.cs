@@ -116,12 +116,7 @@ public class Crew : MonoBehaviour
         EnteredArea.AddListener(Arrived);
         UnStuck.AddListener(Unstuck);
         Stuck.AddListener(IsStuck);
-        
     }
-
-    
-    
-
     // Update is called once per frame
     void Update()
     {
@@ -143,44 +138,56 @@ public class Crew : MonoBehaviour
     }
     private void HelpTeach()
     {
-        HelpB = true;
-        Interactable = false;
-        switch ((int)SkillLevel)
+        if (Interactable)
         {
-            case 0:
-                SkillLevel += 1f;
-                break;
-            case 1:
-                SkillLevel += 0.5f;
-                break;
-            case 2:
-                SkillLevel += 0.25f;
-                break;
-            case 3:
-                break;
+            HelpB = true;
+            Interactable = false;
+            switch ((int)SkillLevel)
+            {
+                case 0:
+                    SkillLevel += 1f;
+                    break;
+                case 1:
+                    SkillLevel += 0.5f;
+                    break;
+                case 2:
+                    SkillLevel += 0.25f;
+                    break;
+                case 3:
+                    break;
+            }
         }
     }
     private void Gratz()
     {
-        GratzB = true;
-        Interactable = false;
-        //add reputation+? and something?
+        if (Interactable)
+        {
+            GratzB = true;
+            Interactable = false;
+            //add reputation+? and something?
+        }
     }
     private void Threat()
     {
-        ThreatB = true;
-        Interactable = false;
-        //add reputation-? and something?
+        if (Interactable)
+        {
+            ThreatB = true;
+            Interactable = false;
+            //add reputation-? and something?
+        }
     }
     private void Slap()
     {
-        SlapB = true;
-        Interactable = false;
-        BoostActive = true;
-        if (characterState == e_characterState.WALKING)
+        if(Interactable)
         {
-            StartCoroutine("slapTimer");
-            characterState = e_characterState.RUNNING;
+            SlapB = true;
+            Interactable = false;
+            BoostActive = true;
+            if (characterState == e_characterState.WALKING)
+            {
+                StartCoroutine("slapTimer");
+                characterState = e_characterState.RUNNING;
+            }
         }
     }
 
@@ -477,24 +484,28 @@ public class Crew : MonoBehaviour
             if (SlapB)
             {
                 Interactable = false;
+                StateStuck = false;
                 SlapB = false;
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
                 Interactable = false;
+                StateStuck = false;
                 GratzB = false;
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
             {
                 Interactable = false;
+                StateStuck = false;
                 HelpB = false;
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
             {
                 Interactable = false;
+                StateStuck = false;
                 ThreatB = false;
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
@@ -516,24 +527,28 @@ public class Crew : MonoBehaviour
             if (SlapB)
             {
                 Interactable = false;
+                StateStuck = false;
                 SlapB = false;
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
                 Interactable = false;
+                StateStuck = false;
                 GratzB = false;
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
             {
                 Interactable = false;
+                StateStuck = false;
                 HelpB = false;
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
             {
                 Interactable = false;
+                StateStuck = false;
                 ThreatB = false;
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
@@ -555,24 +570,28 @@ public class Crew : MonoBehaviour
             if (SlapB)
             {
                 Interactable = false;
+                StateStuck = false;
                 SlapB = false;
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
                 Interactable = false;
+                StateStuck = false;
                 GratzB = false;
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
             {
                 Interactable = false;
+                StateStuck = false;
                 HelpB = false;
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
             {
                 Interactable = false;
+                StateStuck = false;
                 ThreatB = false;
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
@@ -594,24 +613,28 @@ public class Crew : MonoBehaviour
             if (SlapB)
             {
                 Interactable = false;
+                StateStuck = false;
                 SlapB = false;
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
                 Interactable = false;
+                StateStuck = false;
                 GratzB = false;
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
             {
                 Interactable = false;
+                StateStuck = false;
                 HelpB = false;
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
             {
                 Interactable = false;
+                StateStuck = false;
                 ThreatB = false;
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
@@ -633,24 +656,28 @@ public class Crew : MonoBehaviour
             if (SlapB)
             {
                 Interactable = false;
+                StateStuck = false;
                 SlapB = false;
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
                 Interactable = false;
+                StateStuck = false;
                 GratzB = false;
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
             {
                 Interactable = false;
+                StateStuck = false;
                 HelpB = false;
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
             {
                 Interactable = false;
+                StateStuck = false;
                 ThreatB = false;
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
