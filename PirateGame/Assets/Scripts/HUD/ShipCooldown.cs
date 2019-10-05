@@ -8,12 +8,28 @@ public class ShipCooldown : MonoBehaviour
     private Slider slider;
     private float startTimer = 0f;
     public float GameTime = 60f;
+    //public string HappySentence;
+    //public string GoodSentence;
+    //public string NormalSentence;
+    //public string BadSentence;
+    //public string WorseSentence;
+    public Text EndSentenceHolder;
 
+    //public enum DifferentEnds
+    //{
+    //    ,
+    //    HappyEnd,
+    //    HelpingEnd,
+    //    MenacingEnd;
+    //}
+
+    public int HappinessFactor = 3;
 
 
     void Start()
     {
         slider = GetComponent<Slider>();
+        EndSentenceHolder.text = null;
     }
 
     void Update()
@@ -23,8 +39,48 @@ public class ShipCooldown : MonoBehaviour
 
         if (startTimer >= 1f)
         {
-            startTimer = 0f;
+
+            //startTimer = 0f;
             //GameEnd
         }
+
+        StartCoroutine(HapinessCalculation());
+    }
+
+    IEnumerator HapinessCalculation()
+    {
+        //EndSentenceHolder.isEnabled = true;
+        if (startTimer >= 1f)
+        {
+            if (HappinessFactor >= 8)
+            {
+                EndSentenceHolder.text = "On pouvait pas rêver d'un meilleur capitaine que toi !";
+            }
+            //happy
+            else if (HappinessFactor >= 6)
+            {
+                EndSentenceHolder.text = "Félicitation tu es un bon capitaine mais tu peux mieux faire.";
+            }
+            //petite victoire
+            else if (HappinessFactor == 5)
+            {
+                EndSentenceHolder.text = "Au moins tu as tes moussaillons.";
+            }
+            //pas de trésor mais tous ensemble
+            else if (HappinessFactor == 4)
+            {
+                EndSentenceHolder.text = "Bon courage pour conduire ce navire seul.";
+            }
+            //seul avec le bateau
+            else if (HappinessFactor <= 3)
+            {
+                EndSentenceHolder.text = "Bravo tu as tout raté.";
+            }
+            //supplice planche
+        }
+
+        yield return null;
+
+
     }
 }
