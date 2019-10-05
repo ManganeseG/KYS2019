@@ -5,7 +5,7 @@ using UnityEngine.Events;
 
 public class Area : MonoBehaviour
 {
-    public UnityEvent OnTEnter;
+    public UnityEvent OnTEnter; 
     public List<GameObject> UsersInArea = new List<GameObject>();
     public enum e_Location
     {
