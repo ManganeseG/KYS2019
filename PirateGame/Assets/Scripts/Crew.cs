@@ -538,13 +538,15 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 SlapB = false;
-                yield return new WaitForSeconds(DurationSlapAnim);
+                StartCoroutine("slapAnimTimer"); 
+                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
                 Interactable = false;
                 StateStuck = false;
                 GratzB = false;
+                StartCoroutine("gratzAnimTimer"); 
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
@@ -552,6 +554,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 HelpB = false;
+                StartCoroutine("helpAnimTimer");
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
@@ -559,6 +562,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 ThreatB = false;
+                StartCoroutine("threatAnimTimer");
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
             Interactable = false;
@@ -581,6 +585,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 SlapB = false;
+                StartCoroutine("slapAnimTimer");
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
@@ -588,6 +593,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 GratzB = false;
+                StartCoroutine("gratzAnimTimer");
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
@@ -595,6 +601,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 HelpB = false;
+                StartCoroutine("helpAnimTimer");
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
@@ -602,6 +609,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 ThreatB = false;
+                StartCoroutine("threatAnimTimer");
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
             Interactable = false;
@@ -624,6 +632,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 SlapB = false;
+                StartCoroutine("slapAnimTimer");
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
@@ -631,6 +640,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 GratzB = false;
+                StartCoroutine("gratzAnimTimer");
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
@@ -638,6 +648,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 HelpB = false;
+                StartCoroutine("helpAnimTimer");
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
@@ -645,6 +656,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 ThreatB = false;
+                StartCoroutine("threatAnimTimer");
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
             Interactable = false;
@@ -667,6 +679,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 SlapB = false;
+                StartCoroutine("slapAnimTimer");
                 yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
@@ -674,6 +687,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 GratzB = false;
+                StartCoroutine("gratzAnimTimer");
                 yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
@@ -681,6 +695,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 HelpB = false;
+                StartCoroutine("helpAnimTimer");
                 yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
@@ -688,6 +703,7 @@ public class Crew : MonoBehaviour
                 Interactable = false;
                 StateStuck = false;
                 ThreatB = false;
+                StartCoroutine("threatAnimTimer");
                 yield return new WaitForSeconds(DurationThreatAnim);
             }
             Interactable = false;
