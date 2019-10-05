@@ -5,6 +5,22 @@ using UnityEngine.Events;
 using UnityEngine.AI;
 public class Crew : MonoBehaviour
 {
+    #region CustomStatPirate
+    public string typePirate= "Default Pirate Template";
+    
+    [Header("Skill level added to dicerolls")]
+    [Range(-3, 3)]
+    public int modifierSkillOnSail=0;
+    [Range(-3, 3)]
+    public int modifierSkillOnBucket=0;
+    [Range(-3, 3)]
+    public int modifierSkillOnBorder=0;
+    [Range(-3, 3)]
+    public int modifierSkillOnCanon=0;
+    [Range(-3, 3)]
+    public int modifierSkillOnAnchor=0;
+    #endregion
+
     #region Public Members
     public UnityEvent Slapped;
     public UnityEvent Helped;
@@ -175,9 +191,6 @@ public class Crew : MonoBehaviour
 
                 switch (rand)
                 {
-                    /*case 0: 
-                        characterState = e_characterState.IDLE;
-                        break;*/
                     case 1:
                         MoveTo(LowerDeskPos);
                         Destination = "LOWERDESK";
@@ -597,7 +610,7 @@ public class Crew : MonoBehaviour
     #region CrewTryTools
     private void TryBucket() 
     {
-        if(DiceIt(0, 10, 3))
+        if(DiceIt(0+ modifierSkillOnBucket, 10, 3))
         {
             //success anim etc
             StartCoroutine("bucketTimer", 10f);
@@ -613,7 +626,7 @@ public class Crew : MonoBehaviour
     }
     private void TrySail()
     {
-        if (DiceIt(0, 10, 3))
+        if (DiceIt(0+ modifierSkillOnSail, 10, 3))
         {
             //success anim etc
             StartCoroutine("sailTimer", 10f);
@@ -629,7 +642,7 @@ public class Crew : MonoBehaviour
     }
     private void TryBorder()
     {
-        if (DiceIt(0, 10, 3))
+        if (DiceIt(0 + modifierSkillOnBorder, 10, 3))
         {
             //success anim etc
             
@@ -646,7 +659,7 @@ public class Crew : MonoBehaviour
     }
     private void TryCanon()
     {
-        if (DiceIt(0, 10, 3))
+        if (DiceIt(0+ modifierSkillOnCanon, 10, 3))
         {
             //success anim etc
 
@@ -663,7 +676,7 @@ public class Crew : MonoBehaviour
     }
     private void TryAnchor()
     {
-        if (DiceIt(0, 10, 3))
+        if (DiceIt(0 + modifierSkillOnAnchor, 10, 3))
         {
             //success anim etc
             StartCoroutine("anchorTimer", 10f);
