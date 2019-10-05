@@ -9,6 +9,7 @@ public class Crew : MonoBehaviour
     public UnityEvent Slapped;
     public UnityEvent Helped;
     public UnityEvent UnStuck;
+    public UnityEvent Death;
     public UnityEvent Stuck;
     public UnityEvent Congratulated;
     public UnityEvent ThorwnOverboard;
@@ -23,26 +24,18 @@ public class Crew : MonoBehaviour
     public Transform AnchorPos;
 
     public Area CurrentArea;
-    public float SpeedWalk = 10f;
-    public float SpeedRun = 20f;
+    public float SpeedWalk = 3f;
+    public float SpeedRun = 5f;
     public int SkillLevel=0;
     public int Handicap=0;
     public float DurationOfSlapBoost = 10f;
     public bool BoostActive=false;
     public string LastLocation = "";
-
-    private bool BucketBusy = false;
-    private bool CanonBusy = false;
-    private bool SailBusy = false;
-    private bool BorderBusy = false;
-    private bool AnchorBusy = false;
-
-    private float ActualSpeed=10f;
-    private bool IsMoving = false;
+    public float TimeStuckBeforeDeath = 30f;
+    public float timerDeath;
     public string Destination;
-    private bool timer01Underway = false;
-    
-    private NavMeshAgent Agent;
+    public bool StateStuck=false;
+    public bool StateDead = false;
     public enum e_Location
     {
         UPPERDESK,
@@ -71,14 +64,28 @@ public class Crew : MonoBehaviour
     public e_characterState characterState = e_characterState.IDLE;
     #endregion
 
+    #region Private Members
+    private bool BucketBusy = false;
+    private bool CanonBusy = false;
+    private bool SailBusy = false;
+    private bool BorderBusy = false;
+    private bool AnchorBusy = false;
+    private bool timer01Underway = false;
+    private NavMeshAgent Agent;
+    private float ActualSpeed = 10f;
+    private bool IsMoving = false;
+    #endregion
+
     // Start is called before the first frame update
     void Awake()
     {
+        timerDeath = TimeStuckBeforeDeath;
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = ActualSpeed;
         Slapped.AddListener(Slap);
         EnteredArea.AddListener(Arrived);
         UnStuck.AddListener(Unstuck);
+        Stuck.AddListener(IsStuck);
     }
 
     
@@ -88,6 +95,20 @@ public class Crew : MonoBehaviour
     void Update()
     {
         CharStateHandle();
+    }
+    private void FixedUpdate()
+    {
+        if(StateStuck)
+        {
+            timerDeath -= Time.deltaTime;
+            if(timerDeath<=0 && StateDead == false)
+            {
+                StateDead = true;
+                Debug.Log("Crew death !");
+                Death.Invoke();
+            }
+        }
+        
     }
 
     private void Unstuck()
@@ -135,12 +156,15 @@ public class Crew : MonoBehaviour
         
         if (CurrentArea.Location.ToString()!= LastLocation)// stop multiple entry on same area
         {
-            Debug.Log("arrived");
             IsMoving = false;
             characterState = e_characterState.IDLE;
         }
     }
-
+    private void IsStuck()
+    {
+        StateStuck = true;
+        timerDeath = TimeStuckBeforeDeath;
+    }
     private void PickActivity()
     {
         int rand;
@@ -359,45 +383,66 @@ public class Crew : MonoBehaviour
 
     }
     #region Timers
+    
     IEnumerator unstuckCanonTimer()
     {
         //anim
         yield return new WaitForSeconds(5f);
-        MoveTo(LowerDeskPos);
-        Destination = "LOWERDESK";
-        CanonBusy = false;
+        if(!StateDead)
+        {
+            StateStuck = false;
+            MoveTo(LowerDeskPos);
+            Destination = "LOWERDESK";
+            CanonBusy = false;
+        }
     }
     IEnumerator unstuckSailTimer()
     {
         //anim
         yield return new WaitForSeconds(5f);
-        MoveTo(UpperDeskPos);
-        Destination = "UPPERDESK";
-        SailBusy = false;
+        if (!StateDead)
+        {
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            SailBusy = false;
+        }
     }
     IEnumerator unstuckBucketTimer()
     {
         //anim
         yield return new WaitForSeconds(5f);
-        MoveTo(UpperDeskPos);
-        Destination = "UPPERDESK";
-        BucketBusy = false;
+        if (!StateDead)
+        {
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            BucketBusy = false;
+        }
     }
     IEnumerator unstuckAnchorTimer()
     {
         //anim
         yield return new WaitForSeconds(5f);
-        MoveTo(UpperDeskPos);
-        Destination = "UPPERDESK";
-        AnchorBusy = false;
+        if (!StateDead)
+        {
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            AnchorBusy = false;
+        }
     }
     IEnumerator unstuckBorderTimer()
     {
         //anim
         yield return new WaitForSeconds(5f);
-        MoveTo(UpperDeskPos);
-        Destination = "UPPERDESK";
-        BorderBusy = false;
+        if (!StateDead)
+        {
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            BorderBusy = false;
+        }
     }   
     IEnumerator crewTimerIdle(float time)
     {
@@ -665,7 +710,8 @@ public class Crew : MonoBehaviour
                 if (!CanonBusy)
                 {
                     Debug.Log("tryCanon"); 
-                    TryCanon();                }
+                    TryCanon();                
+                }
                 break;
             case e_characterState.SAIL:
                 if (!SailBusy)

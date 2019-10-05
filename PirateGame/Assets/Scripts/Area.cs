@@ -34,11 +34,21 @@ public class Area : MonoBehaviour
                 {
                     UsersInArea.Add(other.gameObject);
                 }
+                
                 //c.CurrentArea.UsersInArea.Remove(other.gameObject);
                 c.CurrentArea = this.gameObject.GetComponent<Area>();
                 c.CurrentArea.Location = this.gameObject.GetComponent<Area>().Location;
                 c.EnteredArea.Invoke();
                 c.LastLocation = this.gameObject.GetComponent<Area>().Location.ToString();
+
+                for(int i=0;i<UsersInArea.Count;i++)
+                {
+                    if (UsersInArea[i].GetComponent<Crew>().CurrentArea.Location.ToString() !=
+                        this.gameObject.GetComponent<Area>().Location.ToString())
+                    {
+                        UsersInArea.RemoveAt(i);
+                    }
+                }
 
                 switch (Location)
                 {
@@ -67,4 +77,5 @@ public class Area : MonoBehaviour
             }
         }
     }
+    
 }
