@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 [RequireComponent(typeof(PlayerController))]
 public class PlayerController : MonoBehaviour
@@ -17,10 +18,13 @@ public class PlayerController : MonoBehaviour
 
     private bool CanMove = true;
 
+    public Image ActionsUI;
+
     void Start()
     {
         rbody = GetComponent<Rigidbody>();
         camTransform = Camera.main.transform;
+        ActionsUI.enabled = false;
 
     }
 
@@ -34,7 +38,7 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
-        CaptainsAction();
+        //CaptainsAction();
     }
 
     void PlayerControl(float horizontal, float vertical)
@@ -86,25 +90,49 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    void CaptainsAction()
-    {
-        if (Input.GetButtonDown("Cross"))
-            Debug.Log("Cross enter");
-        if (Input.GetButtonDown("Circle"))
-            Debug.Log("Circle enter");
-        if (Input.GetButtonDown("Square"))
-            Debug.Log("Square enter");
-        if (Input.GetButtonDown("Triangle"))
-            Debug.Log("Triangle enter");
-    }
+    //void CaptainsAction()
+    //{
+    //    if (Input.GetButtonDown("Cross"))
+    //        Debug.Log("Cross enter");
+    //    if (Input.GetButtonDown("Circle"))
+    //        Debug.Log("Circle enter");
+    //    if (Input.GetButtonDown("Square"))
+    //        Debug.Log("Square enter");
+    //    if (Input.GetButtonDown("Triangle"))
+    //        Debug.Log("Triangle enter");
+    //}
 
-    void OnTriggerStay()
+    void OnTriggerStay(Collider col)
     {
         //if need help
-        if (Input.GetButtonDown("Cross")) //&& crew problem condition
+        if (col.gameObject.layer == LayerMask.NameToLayer("Crew"))
         {
-            CanMove = false;
-
+            if (col.GetComponent<Crew>().StateStuck == true && Input.GetButtonDown("Cross"))
+            {
+                CanMove = false;
+                ActionsUI.enabled = true;
+                col.GetComponent<Crew>().UnStuck.Invoke();
+                if (col.GetComponent<Crew>().Interactable == true)
+                {
+                    if (Input.GetButtonDown("Cross"))
+                    {
+                        col.GetComponent<Crew>().Threaten.Invoke();
+                        
+                    }
+                    if (Input.GetButtonDown("Circle"))
+                    {
+                        col.GetComponent<Crew>().Helped.Invoke();
+                    }
+                    if (Input.GetButtonDown("Square"))
+                    {
+                        col.GetComponent<Crew>().Helped.Invoke();
+                    }
+                    if(Input.GetButtonDown("Triangle"))
+                    {
+                        col.GetComponent<Crew>().Congratulated.Invoke();
+                    }
+                }
+            }
         }
     }
 }

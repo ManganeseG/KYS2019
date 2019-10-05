@@ -517,7 +517,6 @@ GameObject:
   - component: {fileID: 214407782}
   - component: {fileID: 214407781}
   - component: {fileID: 214407780}
-  - component: {fileID: 214407783}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -573,102 +572,6 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 11
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!82 &214407783
-AudioSource:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 214407779}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 8300000, guid: c3bcc870d2ba2b5479351108d008b752, type: 3}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
 --- !u!1 &380829282
 GameObject:
   m_ObjectHideFlags: 0
@@ -1091,7 +994,7 @@ GameObject:
   - component: {fileID: 635743789}
   - component: {fileID: 635743788}
   m_Layer: 5
-  m_Name: Text
+  m_Name: ActionUI
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1171,6 +1074,7 @@ GameObject:
   - component: {fileID: 752908935}
   - component: {fileID: 752908934}
   - component: {fileID: 752908936}
+  - component: {fileID: 752908937}
   m_Layer: 9
   m_Name: Captain
   m_TagString: Untagged
@@ -1190,11 +1094,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7e3a67a68b5dbfb47afdc852726108f7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Speed: 0.25
+  Speed: 0.1
   horizontal: 0
   vertical: 0
   turnSmoothing: 10
   speedDampTime: 0.1
+  ActionsUI: {fileID: 0}
 --- !u!23 &752908931
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1304,6 +1209,20 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!136 &752908937
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 752908929}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 1
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &770413364
 GameObject:
   m_ObjectHideFlags: 0
@@ -1396,6 +1315,7 @@ RectTransform:
   m_Children:
   - {fileID: 507092726}
   - {fileID: 635743787}
+  - {fileID: 1631200514}
   m_Father: {fileID: 0}
   m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1709,6 +1629,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c: {fileID: 0}
   stuck: 0
+  playEventGratz: 0
+  playEventThreat: 0
+  playEventSlap: 0
+  playEventHelp: 0
 --- !u!114 &901561542
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1721,6 +1645,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46703bf436f353144bd9b497afd634d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typePirate: Default Pirate Template
+  modifierSkillOnSail: 0
+  modifierSkillOnBucket: 0
+  modifierSkillOnBorder: 0
+  modifierSkillOnCanon: 0
+  modifierSkillOnAnchor: 0
   Slapped:
     m_PersistentCalls:
       m_Calls: []
@@ -1739,7 +1669,7 @@ MonoBehaviour:
   Congratulated:
     m_PersistentCalls:
       m_Calls: []
-  ThorwnOverboard:
+  Threaten:
     m_PersistentCalls:
       m_Calls: []
   EnteredArea:
@@ -1765,6 +1695,12 @@ MonoBehaviour:
   Destination: 
   StateStuck: 0
   StateDead: 0
+  Interactable: 0
+  TimeRemainInteractableAfterUnstuck: 2
+  DurationSlapAnim: 2
+  DurationGratzAnim: 2
+  DurationHelpAnim: 15
+  DurationThreatAnim: 2
   Location: 0
   characterState: 0
 --- !u!23 &901561543
@@ -2099,6 +2035,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c: {fileID: 0}
   stuck: 0
+  playEventGratz: 0
+  playEventThreat: 0
+  playEventSlap: 0
+  playEventHelp: 0
 --- !u!114 &1210003190
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2111,6 +2051,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46703bf436f353144bd9b497afd634d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typePirate: Default Pirate Template
+  modifierSkillOnSail: 0
+  modifierSkillOnBucket: 0
+  modifierSkillOnBorder: 0
+  modifierSkillOnCanon: 0
+  modifierSkillOnAnchor: 0
   Slapped:
     m_PersistentCalls:
       m_Calls: []
@@ -2129,7 +2075,7 @@ MonoBehaviour:
   Congratulated:
     m_PersistentCalls:
       m_Calls: []
-  ThorwnOverboard:
+  Threaten:
     m_PersistentCalls:
       m_Calls: []
   EnteredArea:
@@ -2155,6 +2101,12 @@ MonoBehaviour:
   Destination: 
   StateStuck: 0
   StateDead: 0
+  Interactable: 0
+  TimeRemainInteractableAfterUnstuck: 2
+  DurationSlapAnim: 2
+  DurationGratzAnim: 2
+  DurationHelpAnim: 15
+  DurationThreatAnim: 2
   Location: 0
   characterState: 0
 --- !u!23 &1210003191
@@ -2423,6 +2375,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46703bf436f353144bd9b497afd634d3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  typePirate: Default Pirate Template
+  modifierSkillOnSail: 0
+  modifierSkillOnBucket: 0
+  modifierSkillOnBorder: 0
+  modifierSkillOnCanon: 0
+  modifierSkillOnAnchor: 0
   Slapped:
     m_PersistentCalls:
       m_Calls: []
@@ -2441,7 +2399,7 @@ MonoBehaviour:
   Congratulated:
     m_PersistentCalls:
       m_Calls: []
-  ThorwnOverboard:
+  Threaten:
     m_PersistentCalls:
       m_Calls: []
   EnteredArea:
@@ -2467,6 +2425,12 @@ MonoBehaviour:
   Destination: 
   StateStuck: 0
   StateDead: 0
+  Interactable: 0
+  TimeRemainInteractableAfterUnstuck: 2
+  DurationSlapAnim: 2
+  DurationGratzAnim: 2
+  DurationHelpAnim: 15
+  DurationThreatAnim: 2
   Location: 0
   characterState: 0
 --- !u!23 &1226311423
@@ -2559,6 +2523,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   c: {fileID: 0}
   stuck: 0
+  playEventGratz: 0
+  playEventThreat: 0
+  playEventSlap: 0
+  playEventHelp: 0
 --- !u!65 &1226311428
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -2926,6 +2894,79 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1631200513
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1631200514}
+  - component: {fileID: 1631200516}
+  - component: {fileID: 1631200515}
+  m_Layer: 5
+  m_Name: Image
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1631200514
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631200513}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 770413368}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0.5}
+  m_AnchorMax: {x: 0.5, y: 0.5}
+  m_AnchoredPosition: {x: 713, y: -299}
+  m_SizeDelta: {x: 400, y: 400}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &1631200515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631200513}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_Sprite: {fileID: 21300000, guid: a650b6b871b46874eadf713c09825a1f, type: 3}
+  m_Type: 0
+  m_PreserveAspect: 0
+  m_FillCenter: 1
+  m_FillMethod: 4
+  m_FillAmount: 1
+  m_FillClockwise: 1
+  m_FillOrigin: 0
+  m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
+--- !u!222 &1631200516
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1631200513}
+  m_CullTransparentMesh: 0
 --- !u!1 &1658718887
 GameObject:
   m_ObjectHideFlags: 0
@@ -3005,8 +3046,8 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1658718887}
-  m_LocalRotation: {x: -0.33644336, y: 0.61499906, z: -0.32630974, w: -0.63411677}
-  m_LocalPosition: {x: 23.397972, y: 31.546482, z: 3.7457335}
+  m_LocalRotation: {x: -0.24877861, y: 0.42366022, z: -0.12211272, w: -0.8623861}
+  m_LocalPosition: {x: 8.706854, y: 9.767448, z: -8.015345}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -3809,7 +3850,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3c111cc4550f5234dbd09c25d4eb72b4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  RotSpeed: 5
+  RotSpeed: 23
 --- !u!1 &2127547392
 GameObject:
   m_ObjectHideFlags: 0
