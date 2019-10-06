@@ -23,7 +23,7 @@ public class ShipCooldown : MonoBehaviour
     //    MenacingEnd;
     //}
 
-    public int HappinessFactor = 3;
+    //public int HappinessFactor = 3;
 
 
     void Start()
@@ -52,27 +52,27 @@ public class ShipCooldown : MonoBehaviour
         //EndSentenceHolder.isEnabled = true;
         if (startTimer >= 1f)
         {
-            if (HappinessFactor >= 8)
+            if (CrewV2.HappinessGauge >= 8)
             {
                 EndSentenceHolder.text = "On pouvait pas rêver d'un meilleur capitaine que toi !";
             }
             //happy
-            else if (HappinessFactor >= 6)
+            else if (CrewV2.HappinessGauge >= 6)
             {
                 EndSentenceHolder.text = "Félicitation tu es un bon capitaine mais tu peux mieux faire.";
             }
             //petite victoire
-            else if (HappinessFactor == 5)
+            else if (CrewV2.HappinessGauge == 5)
             {
                 EndSentenceHolder.text = "Au moins tu as tes moussaillons.";
             }
             //pas de trésor mais tous ensemble
-            else if (HappinessFactor == 4)
+            else if (CrewV2.HappinessGauge == 4)
             {
                 EndSentenceHolder.text = "Bon courage pour conduire ce navire seul.";
             }
             //seul avec le bateau
-            else if (HappinessFactor <= 3)
+            else if (CrewV2.HappinessGauge <= 3)
             {
                 EndSentenceHolder.text = "Bravo tu as tout raté.";
             }

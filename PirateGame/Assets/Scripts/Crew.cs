@@ -5,31 +5,7 @@ using UnityEngine.Events;
 using UnityEngine.AI;
 public class Crew : MonoBehaviour
 {
-    #region Animations
-    public Animation BucketSuccess;
-    public Animation SailSuccess;
-    public Animation BorderSuccess;
-    public Animation CanonSuccess;
-    public Animation AnchorSuccess;
-
-    public Animation BucketFail;
-    public Animation SailFail;
-    public Animation BorderFail;
-    public Animation CanonFail;
-    public Animation AnchorFail;
-
-    public Animation BucketUnStuck;
-    public Animation SailUnStuck;
-    public Animation BorderUnStuck;
-    public Animation CanonUnStuck;
-    public Animation AnchorUnStuck;
-
-    public Animation SlapAnim;
-    public Animation GratzAnim;
-    public Animation HelpAnim;
-    public Animation ThreatAnim;
-    #endregion
-
+    
     #region CustomStatPirate
     public string typePirate = "Default Pirate Template";
 
@@ -47,6 +23,7 @@ public class Crew : MonoBehaviour
     #endregion
 
     #region Public Members
+    public Animator Ani = new Animator();
     public UnityEvent Slapped;//colère
     public UnityEvent Helped;//aide
     public UnityEvent UnStuck;
@@ -131,6 +108,7 @@ public class Crew : MonoBehaviour
 
     void Awake()
     {
+        Ani = GetComponent<Animator>();
         timerDeath = TimeStuckBeforeDeath;
         Agent = GetComponent<NavMeshAgent>();
         Agent.speed = ActualSpeed;
@@ -220,25 +198,26 @@ public class Crew : MonoBehaviour
         switch (Location)
         {
             case e_Location.SAILAREA:
-                SailUnStuck.Play();
+                
                 break;
             case e_Location.BORDERAREA:
-                BorderUnStuck.Play();
+                
                 break;
             case e_Location.BUCKETAREA:
-                BucketUnStuck.Play();
+                
                 break;
             case e_Location.CANONAREA:
-                CanonUnStuck.Play();
+                
                 break;
             case e_Location.ANCHORAREA:
-                AnchorUnStuck.Play();
+                
                 break;
         }
     }
     
     private void MoveTo(Transform pos)
     {
+        Ani.SetBool("IsRunning", true);
         IsMoving = true;
         if (BoostActive)
             characterState = e_characterState.RUNNING;
@@ -512,22 +491,22 @@ public class Crew : MonoBehaviour
             if (SlapB)
             {
                 SlapB = false;
-                SlapAnim.Play();
+                
             }
             else if (GratzB)
             {
                 GratzB = false;
-                GratzAnim.Play();
+                
             }
             else if (HelpB)
             {
                 HelpB = false;
-                HelpAnim.Play();
+                
             }
             else if (ThreatB)
             {
                 ThreatB = false;
-                ThreatAnim.Play();
+                
             }
             else
             {
@@ -685,11 +664,11 @@ public class Crew : MonoBehaviour
         BucketBusy = true;
         if (DiceIt(0+ modifierSkillOnBucket, 10, 3))
         {
-            BucketSuccess.Play();
+            
         }
         else
         {
-            BucketFail.Play();
+            
         }
     }
     
@@ -698,11 +677,11 @@ public class Crew : MonoBehaviour
         SailBusy = true;
         if (DiceIt(0+ modifierSkillOnSail, 10, 3))
         {
-            SailSuccess.Play();
+            
         }
         else
         {
-            SailFail.Play();
+            
         }
     }
     private void TryBorder()
@@ -710,11 +689,11 @@ public class Crew : MonoBehaviour
         BorderBusy = true;
         if (DiceIt(0 + modifierSkillOnBorder, 10, 3))
         {
-            BorderSuccess.Play();
+            
         }
         else
         {
-            BorderFail.Play();
+            
         }
     }
     private void TryCanon()
@@ -722,11 +701,11 @@ public class Crew : MonoBehaviour
         CanonBusy = true;
         if (DiceIt(0+ modifierSkillOnCanon, 10, 3))
         {
-            CanonSuccess.Play();
+            
         }
         else
         {
-            CanonFail.Play();
+            
         }
     }
     private void TryAnchor()
@@ -734,11 +713,11 @@ public class Crew : MonoBehaviour
         AnchorBusy = true;
         if (DiceIt(0 + modifierSkillOnAnchor, 10, 3))
         {
-            AnchorSuccess.Play();
+            
         }
         else
         {
-            AnchorFail.Play();
+            
         }
     }
     #endregion

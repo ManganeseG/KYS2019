@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
             horizontal = 0f;
             vertical = 0f;
         }
-        
+
 
     }
 
@@ -101,6 +101,14 @@ public class PlayerController : MonoBehaviour
     //    if (Input.GetButtonDown("Triangle"))
     //        Debug.Log("Triangle enter");
     //}
+
+    IEnumerator WaitForAction(float timeToWait)
+    {
+        CanMove = false;
+        yield return new WaitForSeconds(timeToWait);
+        CanMove = true;
+        ActionsUI.enabled = false;
+    }
 
     void OnTriggerStay(Collider col)
     {
@@ -117,22 +125,30 @@ public class PlayerController : MonoBehaviour
             if (col.GetComponent<Crew>().Interactable == true)
             {
                 Debug.Log("interactable");
-                if (Input.GetButtonDown("Cross"))
+                if (Input.GetButtonDown("Cross")) //Spooke
                 {
-                    col.GetComponent<Crew>().Threaten.Invoke();
+                    //col.GetComponent<Crew>().Threaten.Invoke();
+                    StartCoroutine(WaitForAction(1f));
+                    CrewV2.HappinessGauge -= 2f;
                 }
-                if (Input.GetButtonDown("Circle"))
+                if (Input.GetButtonDown("Circle"))//Help
                 {
-                    col.GetComponent<Crew>().Helped.Invoke();
+                    //col.GetComponent<Crew>().Helped.Invoke();
+                    StartCoroutine(WaitForAction(5f));
+                    CrewV2.HappinessGauge += 3f;
                 }
-                if (Input.GetButtonDown("Square"))
+                if (Input.GetButtonDown("Square"))//Happy
                 {
-                    col.GetComponent<Crew>().Helped.Invoke();
+                    //col.GetComponent<Crew>().Helped.Invoke();
+                    StartCoroutine(WaitForAction(2f));
+                    CrewV2.HappinessGauge += 1f;
                 }
-                if (Input.GetButtonDown("Triangle"))
+                if (Input.GetButtonDown("Triangle"))//Mad
                 {
-                    col.GetComponent<Crew>().Congratulated.Invoke();
-                    
+                    //col.GetComponent<Crew>().Congratulated.Invoke();
+                    StartCoroutine(WaitForAction(2f));
+                    CrewV2.HappinessGauge -= 1f;
+
                 }
             }
             if(col.GetComponent<Crew>().FinishedIteraction== true)
