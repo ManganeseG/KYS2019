@@ -5,31 +5,6 @@ using UnityEngine.Events;
 using UnityEngine.AI;
 public class Crew : MonoBehaviour
 {
-    #region Animations
-    public Animation BucketSuccess;
-    public Animation SailSuccess;
-    public Animation BorderSuccess;
-    public Animation CanonSuccess;
-    public Animation AnchorSuccess;
-
-    public Animation BucketFail;
-    public Animation SailFail;
-    public Animation BorderFail;
-    public Animation CanonFail;
-    public Animation AnchorFail;
-
-    public Animation BucketUnStuck;
-    public Animation SailUnStuck;
-    public Animation BorderUnStuck;
-    public Animation CanonUnStuck;
-    public Animation AnchorUnStuck;
-
-    public Animation SlapAnim;
-    public Animation GratzAnim;
-    public Animation HelpAnim;
-    public Animation ThreatAnim;
-    #endregion
-
     #region CustomStatPirate
     public string typePirate = "Default Pirate Template";
 
@@ -129,6 +104,7 @@ public class Crew : MonoBehaviour
     private bool IsMoving = false;
     #endregion
 
+    // Start is called before the first frame update
     void Awake()
     {
         timerDeath = TimeStuckBeforeDeath;
@@ -142,6 +118,7 @@ public class Crew : MonoBehaviour
         UnStuck.AddListener(Unstuck);
         Stuck.AddListener(IsStuck);
     }
+    // Update is called once per frame
     void Update()
     {
         CharStateHandle();
@@ -158,6 +135,7 @@ public class Crew : MonoBehaviour
                 Death.Invoke();
             }
         }
+        
     }
     private void HelpTeach()
     {
@@ -220,19 +198,19 @@ public class Crew : MonoBehaviour
         switch (Location)
         {
             case e_Location.SAILAREA:
-                SailUnStuck.Play();
+                StartCoroutine("unstuckSailTimer");
                 break;
             case e_Location.BORDERAREA:
-                BorderUnStuck.Play();
+                StartCoroutine("unstuckBorderTimer");
                 break;
             case e_Location.BUCKETAREA:
-                BucketUnStuck.Play();
+                StartCoroutine("unstuckBucketTimer");
                 break;
             case e_Location.CANONAREA:
-                CanonUnStuck.Play();
+                StartCoroutine("unstuckCanonTimer");
                 break;
             case e_Location.ANCHORAREA:
-                AnchorUnStuck.Play();
+                StartCoroutine("unstuckAnchorTimer");
                 break;
         }
     }
@@ -248,6 +226,7 @@ public class Crew : MonoBehaviour
     }
     private void Arrived()
     {
+        
         if (CurrentArea.Location.ToString()!= LastLocation)// stop multiple entry on same area
         {
             IsMoving = false;
@@ -266,6 +245,7 @@ public class Crew : MonoBehaviour
         {
             case e_Location.UPPERDESK:
                 rand =(int)Random.Range(1, 5);
+
                 switch (rand)
                 {
                     case 1:
@@ -292,6 +272,7 @@ public class Crew : MonoBehaviour
                 break;
             case e_Location.LOWERDESK:
                 rand = (int)Random.Range(0, 2);
+
                 switch (rand)
                 {
                     case 0:
@@ -315,6 +296,7 @@ public class Crew : MonoBehaviour
                 else
                 {
                     rand = (int)Random.Range(0, 4);
+
                     switch (rand)
                     {
                         case 0:
@@ -339,6 +321,7 @@ public class Crew : MonoBehaviour
                             break;
                     }
                 }
+                
                 break;
             case e_Location.SAILAREA:
                 if (CurrentArea.UsersInArea.Count <2)
@@ -348,6 +331,7 @@ public class Crew : MonoBehaviour
                 else
                 {
                     rand = (int)Random.Range(0, 4);
+
                     switch (rand)
                     {
                         case 0:
@@ -372,6 +356,7 @@ public class Crew : MonoBehaviour
                             break;
                     }
                 }
+                
                 break;
             case e_Location.BORDERAREA:
                 if (CurrentArea.UsersInArea.Count <2)
@@ -381,6 +366,7 @@ public class Crew : MonoBehaviour
                 else
                 {
                     rand = (int)Random.Range(0, 4);
+
                     switch (rand)
                     {
                         case 0:
@@ -452,6 +438,7 @@ public class Crew : MonoBehaviour
                             break;
                     }
                 }
+                
                 break;
         }
     }
@@ -463,80 +450,270 @@ public class Crew : MonoBehaviour
             return false;
         else
             return true;
+
     }
 
     #region Timers
-    public void FinishInteraction()//<-launch after anim is finished (helped/theat/etc)
+    IEnumerator slapAnimTimer()
     {
+        //anim 
+        yield return new WaitForSeconds(DurationSlapAnim);
         FinishedIteraction = true;
-
-        if (Location == e_Location.CANONAREA)
-        {
-            MoveTo(LowerDeskPos);
-            Destination = "LOWERDESK";
-            CanonBusy = false;
-        }
-        else
-        {
-            MoveTo(UpperDeskPos);
-            Destination = "UPPERDESK";
-            switch (Location)
-            {
-                case e_Location.ANCHORAREA:
-                    AnchorBusy = false;
-                    break;
-                case e_Location.BORDERAREA:
-                    BorderBusy = false;
-                    break;
-                case e_Location.BUCKETAREA:
-                    BucketBusy = false;
-                    break;
-                case e_Location.SAILAREA:
-                    SailBusy = false;
-                    break;
-            }
-        }
     }
-    public void AfterUnstuck()//<-launch after anim that unstuck
+    IEnumerator gratzAnimTimer()
     {
-        StartCoroutine("waitForInteractionTimer");
+        //anim 
+        yield return new WaitForSeconds(DurationGratzAnim);
+        FinishedIteraction = true;
     }
-    IEnumerator waitForInteractionTimer()
+    IEnumerator helpAnimTimer()
     {
+        //anim 
+        yield return new WaitForSeconds(DurationHelpAnim);
+        FinishedIteraction = true;
+    }
+    IEnumerator threatAnimTimer()
+    {
+        //anim 
+        yield return new WaitForSeconds(DurationThreatAnim);
+        FinishedIteraction = true;
+    }
+    IEnumerator unstuckCanonTimer()
+    {
+        //anim
+        yield return new WaitForSeconds(5f);
         if(!StateDead)
         {
             Interactable = true;
             yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
-            Interactable = false;
-            StateStuck = false;
             if (SlapB)
             {
+                Interactable = false;
+                StateStuck = false;
                 SlapB = false;
-                SlapAnim.Play();
+                StartCoroutine("slapAnimTimer");
+                yield return new WaitForSeconds(DurationSlapAnim);
             }
             else if (GratzB)
             {
+                Interactable = false;
+                StateStuck = false;
                 GratzB = false;
-                GratzAnim.Play();
+                StartCoroutine("gratzAnimTimer");
+                yield return new WaitForSeconds(DurationGratzAnim);
             }
             else if (HelpB)
             {
+                Interactable = false;
+                StateStuck = false;
                 HelpB = false;
-                HelpAnim.Play();
+                StartCoroutine("helpAnimTimer");
+                yield return new WaitForSeconds(DurationHelpAnim);
             }
             else if (ThreatB)
             {
+                Interactable = false;
+                StateStuck = false;
                 ThreatB = false;
-                ThreatAnim.Play();
+                StartCoroutine("threatAnimTimer");
+                yield return new WaitForSeconds(DurationThreatAnim);
             }
-            else
-            {
-                MoveTo(LowerDeskPos);
-                Destination = "LOWERDESK";
-                CanonBusy = false;
-            }
+            Interactable = false;
+            StateStuck = false;
+            MoveTo(LowerDeskPos);
+            Destination = "LOWERDESK";
+            CanonBusy = false;
         }
     }
+    IEnumerator unstuckSailTimer()
+    {
+        //anim
+        yield return new WaitForSeconds(5f);
+        if (!StateDead)
+        {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                SlapB = false;
+                StartCoroutine("slapAnimTimer"); 
+                 yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                GratzB = false;
+                StartCoroutine("gratzAnimTimer"); 
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                HelpB = false;
+                StartCoroutine("helpAnimTimer");
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                ThreatB = false;
+                StartCoroutine("threatAnimTimer");
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            SailBusy = false;
+        }
+    }
+    IEnumerator unstuckBucketTimer()
+    {
+        //anim
+        yield return new WaitForSeconds(5f);
+        if (!StateDead)
+        {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                SlapB = false;
+                StartCoroutine("slapAnimTimer");
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                GratzB = false;
+                StartCoroutine("gratzAnimTimer");
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                HelpB = false;
+                StartCoroutine("helpAnimTimer");
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                ThreatB = false;
+                StartCoroutine("threatAnimTimer");
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            BucketBusy = false;
+        }
+    }
+    IEnumerator unstuckAnchorTimer()
+    {
+        //anim
+        yield return new WaitForSeconds(5f);
+        if (!StateDead)
+        {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                SlapB = false;
+                StartCoroutine("slapAnimTimer");
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                GratzB = false;
+                StartCoroutine("gratzAnimTimer");
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                HelpB = false;
+                StartCoroutine("helpAnimTimer");
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                ThreatB = false;
+                StartCoroutine("threatAnimTimer");
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            AnchorBusy = false;
+        }
+    }
+    IEnumerator unstuckBorderTimer()
+    {
+        //anim
+        yield return new WaitForSeconds(5f);
+        if (!StateDead)
+        {
+            Interactable = true;
+            yield return new WaitForSeconds(TimeRemainInteractableAfterUnstuck);
+            if (SlapB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                SlapB = false;
+                StartCoroutine("slapAnimTimer");
+                yield return new WaitForSeconds(DurationSlapAnim);
+            }
+            else if (GratzB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                GratzB = false;
+                StartCoroutine("gratzAnimTimer");
+                yield return new WaitForSeconds(DurationGratzAnim);
+            }
+            else if (HelpB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                HelpB = false;
+                StartCoroutine("helpAnimTimer");
+                yield return new WaitForSeconds(DurationHelpAnim);
+            }
+            else if (ThreatB)
+            {
+                Interactable = false;
+                StateStuck = false;
+                ThreatB = false;
+                StartCoroutine("threatAnimTimer");
+                yield return new WaitForSeconds(DurationThreatAnim);
+            }
+            Interactable = false;
+            
+            StateStuck = false;
+            MoveTo(UpperDeskPos);
+            Destination = "UPPERDESK";
+            BorderBusy = false;
+        }
+    }   
     IEnumerator crewTimerIdle(float time)
     {
         timer01Underway = true;
@@ -552,11 +729,14 @@ public class Crew : MonoBehaviour
             BoostActive = false;
             characterState = e_characterState.WALKING;
         }
-    }
 
-    public void AfterSucessBucket()//<-launch after anim bucket success
+    }
+    IEnumerator bucketTimer(float time)
     {
+        BucketBusy = true;
+        yield return new WaitForSeconds(time);
         int rand = (int)Random.Range(0, 4);
+
         switch (rand)
         {
             case 0:
@@ -582,9 +762,12 @@ public class Crew : MonoBehaviour
         }
         BucketBusy = false;
     }
-    public void AfterSucessSail()//<-launch after anim sail success
+    IEnumerator sailTimer(float time)
     {
+        SailBusy = true;
+        yield return new WaitForSeconds(time);
         int rand = (int)Random.Range(0, 4);
+
         switch (rand)
         {
             case 0:
@@ -610,14 +793,18 @@ public class Crew : MonoBehaviour
         }
         SailBusy = false;
     }
-    public void AfterSucessCanon()//<-launch after anim canon success
+    IEnumerator canonTimer(float time)
     {
+        CanonBusy = true;
+        yield return new WaitForSeconds(time);
         MoveTo(LowerDeskPos);
         Destination = "LOWERDESK";
         CanonBusy = false;
     }
-    public void AfterSucessAnchor()//<-launch after anim Anchor success
+    IEnumerator anchorTimer(float time)
     {
+        AnchorBusy = true;
+        yield return new WaitForSeconds(time);
         int rand = (int)Random.Range(0, 4);
         switch (rand)
         {
@@ -644,8 +831,10 @@ public class Crew : MonoBehaviour
         }
         AnchorBusy = false;
     }
-    public void AfterSucessBorder()//<-launch after anim Border success
+    IEnumerator borderTimer(float time)
     {
+        BorderBusy = true;
+        yield return new WaitForSeconds(time);
         int rand = (int)Random.Range(0, 4);
 
         switch (rand)
@@ -674,74 +863,95 @@ public class Crew : MonoBehaviour
         BorderBusy = false;
     }
     
-    public void AfterFailAny() //<-launch after any task fail anim
-    {
-        Stuck.Invoke();
-    }
     #endregion
-    #region CrewTryTools    
-    private void TryBucket()
+    #region CrewTryTools
+    private void TryBucket() 
     {
-        BucketBusy = true;
-        if (DiceIt(0+ modifierSkillOnBucket, 10, 3))
+        if(DiceIt(0+ modifierSkillOnBucket, 10, 3))
         {
-            BucketSuccess.Play();
+            //success anim etc
+            StartCoroutine("bucketTimer", 10f);
         }
         else
         {
-            BucketFail.Play();
+            BucketBusy = true;
+            //fail anim etc
+            Debug.Log("StuckBucket");
+            Stuck.Invoke();
+            //followed by stuck,need captain;
         }
     }
-    
     private void TrySail()
     {
-        SailBusy = true;
         if (DiceIt(0+ modifierSkillOnSail, 10, 3))
         {
-            SailSuccess.Play();
+            //success anim etc
+            StartCoroutine("sailTimer", 10f);
         }
         else
         {
-            SailFail.Play();
+            SailBusy = true;
+            //fail anim etc
+            Stuck.Invoke();
+            Debug.Log("StuckSail");
+            //followed by stuck,need captain;
         }
     }
     private void TryBorder()
     {
-        BorderBusy = true;
         if (DiceIt(0 + modifierSkillOnBorder, 10, 3))
         {
-            BorderSuccess.Play();
+            //success anim etc
+            
+            StartCoroutine("borderTimer", 10f);
         }
         else
         {
-            BorderFail.Play();
+            BorderBusy = true;
+            //fail anim etc
+            Stuck.Invoke();
+            Debug.Log("StuckBorder");
+            //followed by stuck,need captain;
         }
     }
     private void TryCanon()
     {
-        CanonBusy = true;
         if (DiceIt(0+ modifierSkillOnCanon, 10, 3))
         {
-            CanonSuccess.Play();
+            //success anim etc
+
+            StartCoroutine("canonTimer", 10f);
         }
         else
         {
-            CanonFail.Play();
+            CanonBusy = true;
+            //fail anim etc
+            Stuck.Invoke();
+            Debug.Log("StuckCanon");
+            //followed by stuck,need captain;
         }
     }
     private void TryAnchor()
     {
-        AnchorBusy = true;
         if (DiceIt(0 + modifierSkillOnAnchor, 10, 3))
         {
-            AnchorSuccess.Play();
+            //success anim etc
+            StartCoroutine("anchorTimer", 10f);
         }
         else
         {
-            AnchorFail.Play();
+            AnchorBusy = true;
+            //fail anim etc
+            Stuck.Invoke();
+            Debug.Log("StuckAnchor");
+            //followed by stuck,need captain;
         }
     }
     #endregion
+
+
+
+    
 
     private void CharStateHandle()
     {
